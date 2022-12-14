@@ -7,111 +7,151 @@ namespace MSTestOnUserRegistration
     public class UnitTest1
     {
         [TestMethod]
-        [DataRow("Abc")]
-        [DataRow("Abcd")]
-        [DataRow("Ab")]
-        [DataRow("abc")]
-        public void FirstName(string userInput)
+        [DataRow("", "Input should not be empty or null")]
+        [DataRow("Ab", "Try again!Please keep 3 characters minimum and atleast 1 letter as capital.")]
+        public void FirstName(string userInput,string expected)
         {
-            bool output = UserDetails.FirstName(userInput);
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.FirstName(userInput);
+
+            }
+            catch(CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("Abc")]    //pass
-        [DataRow("Abcd")]   //pass
-        [DataRow("Ab")]     //fail
-        [DataRow("abc")]    //fail
-        public void LastName(string userInput)
+        [DataRow("", "Input should not be empty or null")]
+        [DataRow("Ab", "Try again!Please keep 3 characters minimum and atleast 1 letter as capital.")]
+        public void LastName(string userInput, string expected)
         {
-            bool output = UserDetails.LastName(userInput);      //UC2 LastName starts with cap and has min 3 char.
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.LastName(userInput);
+
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("abc@bl.com")]    //pass
-        [DataRow("abc.xyz@bl.co.in")]   //pass
-        [DataRow("abc123@gmail.a")]     //fail
-        [DataRow("abc.@gmail.com")]    //fail
-        public void EmailId(string userInput)
+        [DataRow("", "Input should not be empty or null")]
+        [DataRow("abc@gmail.com.aa.au", "Entered Email ID is not in proper format .Please try again with something different.")]
+        public void EmailId(string userInput, string expected)
         {
-            bool output = UserDetails.EmailId(userInput);      //UC3 Email ID testing .
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.EmailId(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("91 8286828080")]    //pass
-        [DataRow("91 9919292319")]   //pass
-        [DataRow("91 0923252352")]     //fail
-        [DataRow("919239323783 ")]    //fail
-        public void MobileNumber(string userInput)
+        [DataRow("91 0923252352", "Entered Mobile No is not in proper format.It shall be like 91 **********")] 
+        [DataRow("919239323783 ", "Entered Mobile No is not in proper format.It shall be like 91 **********")]  
+        public void MobileNumber(string userInput,string expected)
         {
-            bool output = UserDetails.MobileNumber(userInput);      //UC4 Mobile no format 91 8286828080
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.MobileNumber(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("Abc45678")]    //pass
-        [DataRow("Abcd567890")]   //pass
-        [DataRow("1234567")]     //fail
-        [DataRow("Abc123")]    //fail
-        public void PassMin8Char(string userInput)
+        [DataRow("1234567", "Entered password doesn't meet the password policy.There must be atleast 8 characters")] 
+        [DataRow("Abc123", "Entered password doesn't meet the password policy.There must be atleast 8 characters")] 
+        public void PassMin8Char(string userInput, string expected)
         {
-            bool output = UserDetails.PassMin8Char(userInput);      //UC5 pass min 8 char..
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.PassMin8Char(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("Abc45678")]    //pass
-        [DataRow("Abcd567890")]   //pass
-        [DataRow("a2345678")]     //fail
-        [DataRow("Abc123")]    //fail
-        public void PassMin8CharAnd1UpperCase(string userInput)
+        [DataRow("a2345678", "Try Again !There must be atleast 8 characters including atleast 1 uppercase")]  
+        [DataRow("Abc123", "Try Again !There must be atleast 8 characters including atleast 1 uppercase")] 
+        public void PassMin8CharAnd1UpperCase(string userInput,string expected)
         {
-            bool output = UserDetails.PassMin8CharAnd1UpperCase(userInput);      //UC5 pass min 8 char and 1 uppercase
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.PassMin8CharAnd1UpperCase(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("Abc45678")]    //pass
-        [DataRow("Abcd567890")]   //pass
-        [DataRow("a2345678")]     //fail
-        [DataRow("Abc123")]    //fail
-        public void UpperCase1AndNumeric1(string userInput)
+        [DataRow("a2345678", "Try Again !There must be atleast 8 characters including atleast 1 uppercase and 1 Numeric")]  
+        [DataRow("Abc123", "Try Again !There must be atleast 8 characters including atleast 1 uppercase and 1 Numeric")] 
+        public void UpperCase1AndNumeric1(string userInput, string expected)
         {
-            bool output = UserDetails.UpperCase1AndNumeric1(userInput);      //UC7 min 8 char ,1 upper case ,i numeric.
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.UpperCase1AndNumeric1(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("Abc@45678")]    //pass
-        [DataRow("Abc#567890")]   //pass
-        [DataRow("Aa%@5678")]
-        [DataRow("@!@!Abc123")]
-        public void SpecialCharacter1(string userInput)
+        [DataRow("Aa%@56", "Try Again !There must be atleast 8 characters including only 1 special char and atleast 1 uppercase and 1 Numeric")]
+        [DataRow("@!@!A", "Try Again !There must be atleast 8 characters including only 1 special char and atleast 1 uppercase and 1 Numeric")]
+        public void SpecialCharacter1(string userInput, string expected)
         {
-            bool output = UserDetails.SpecialCharacter1(userInput);      //UC8 min 8 char , exactly 1 special char 
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.SpecialCharacter1(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
         [TestMethod]
-        [DataRow("abc@yahoo.com")]    //pass
-        [DataRow("abc-100@yahoo.com")]   //pass ..
-        [DataRow("abc.100@yahoo.com")]
-        [DataRow("abc111@abc.com")]
-        [DataRow("abc-100@abc.net")]
-        [DataRow("abc.100@abc.com.au")]
-        [DataRow("abc@1.com")]
-        [DataRow("abc@gmail.com.com")]
-        [DataRow("abc+100@gmail.com")]
-        [DataRow("abc", "abc@.com.my")]
-        [DataRow("abc123@gmail.a")]
-        [DataRow("abc123@.com")]
-        [DataRow("abc123@.com.com")]
-        [DataRow(".abc@abc.com")]
-        [DataRow("abc()*@gmail.com")]
-        [DataRow("abc@%*.com")]
-        [DataRow("abc..2002@gmail.com")]
-        [DataRow("abc.@gmail.com")]
-        [DataRow("abc@abc@gmail.com")]
-        [DataRow("abc@gmail.com.1a")]
-        [DataRow("abc@gmail.com.aa.au")]
-        public void EmailSample(string userInput)
+        [DataRow("abc@yahoo.com", "Validated successfully!")]    
+        [DataRow("abc-100@yahoo.com", "Validated successfully!")]   
+        [DataRow("abc.100@yahoo.com", "Validated successfully!")]
+        [DataRow("abc111@abc.com", "Validated successfully!")]
+        [DataRow("abc-100@abc.net", "Validated successfully!")]
+        [DataRow("abc.100@abc.com.au", "Validated successfully!")]
+        [DataRow("abc@1.com", "Validated successfully!")]
+        [DataRow("abc@gmail.com.com", "Validated successfully!")]
+        [DataRow("abc+100@gmail.com", "Validated successfully!")]
+        [DataRow("abc@.com.my", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc123@gmail.a", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc123@.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc123@.com.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow(".abc@abc.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc()*@gmail.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc@%*.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc..2002@gmail.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc.@gmail.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc@abc@gmail.com", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc@gmail.com.1a", "Entered Email ID is not in proper format .Please try again with something different.")]
+        [DataRow("abc@gmail.com.aa.au", "Entered Email ID is not in proper format .Please try again with something different.")]
+        public void EmailSample(string userInput,string expected)
         {
-            bool output = UserDetails.EmailSample(userInput);      //UC9 Email Samples .
-            Assert.AreEqual(output, true);
+            try
+            {
+                string actualOutput = UserDetails.EmailId(userInput);
+            }
+            catch (CustomExceptionInvalidInput ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
         }
     }
 }
